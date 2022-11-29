@@ -14,6 +14,7 @@ export default function Main() {
         return fetch(`data/videoList.json`).then((res) => res.json());
       });
 
+
     return (
         <>
             <Navbar />
