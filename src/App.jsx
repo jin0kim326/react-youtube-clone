@@ -4,10 +4,16 @@ import {
   RouterProvider,
   Route,
 } from "react-router-dom";
+import {
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query';
 import Main from './components/Main/Main';
-import { Children } from 'react';
-import VideoList from './components/VideoList/VideoList';
 import Video from './components/Video/Video';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+
+
+const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
   {
@@ -30,7 +36,10 @@ const router = createBrowserRouter([
 function App() {
   return (
     <>
+    <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools initialIsOpen={true} />
       <RouterProvider router={router}/>
+    </QueryClientProvider>
     </>
   );
 }
