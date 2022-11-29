@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import Video from '../Video/Video';
 
-export default function VideoList() {
+export default function VideoList({videoList}) {
+
+    console.log(videoList);
+    
     return (
-        <div>
-            <h1>video List</h1>
-        </div>
+        <ul>
+            {videoList.map(video=> <Video video={video} />)}
+        </ul>
     );
 }
 

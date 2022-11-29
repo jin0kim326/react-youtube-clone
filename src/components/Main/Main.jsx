@@ -13,12 +13,11 @@ export default function Main() {
         console.log(`fetching...`);
         return fetch(`data/videoList.json`).then((res) => res.json());
       });
-    
 
     return (
         <>
             <Navbar />
-            <VideoList />
+            <VideoList videoList={videoList.items}/>
         </>
     );
 }
