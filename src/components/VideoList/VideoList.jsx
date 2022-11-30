@@ -8,7 +8,7 @@ export default function VideoList({videoList}) {
     
     return (
         <ul>
-            {videoList.map(video=> <Video video={video} />)}
+            {videoList.map(video => <Video video={video} />)}
         </ul>
     );
 }

@@ -11,6 +11,7 @@ import {
 import Main from './components/Main/Main';
 import Video from './components/Video/Video';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import VideoDetail from './components/VideoDetail/VideoDetail';
 
 
 const queryClient = new QueryClient();
@@ -29,7 +30,7 @@ const router = createBrowserRouter([
   },
   {
     path: `/video/:id`,
-    element: <Video />
+    element: <VideoDetail />,
   }
 ]);
 
