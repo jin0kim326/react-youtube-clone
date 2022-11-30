@@ -1,13 +1,34 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import VideoCard from '../components/VideoCard/VideoCard';
+import axios from 'axios';
+
 
 export default function Videos() {
     const {keyword} = useParams();
-    console.log(keyword);
+
+    const { 
+        isLoading,
+        error,
+        data: videos,
+    } = useQuery(['videos',keyword], async () => {
+        return axios.get(`/videos/${keyword ? 'search':'popular'}.json`)
+        .then((res) => res.data.items)
+    });
+
     return (
-        <div>
-            { keyword ? `VideoList🔎${keyword}` : `VideoList🔥` }
-        </div>
+        <>
+            <div>{ keyword ? `VideoList🔎${keyword}` : `VideoList🔥` }</div>
+            {isLoading && <p>Loading...</p>}
+            {error && <p> 😿 {error}</p>}
+            {videos && (
+                <ul>
+                    {videos.map((video) => (<VideoCard key ={video.id} video={video} />
+                    ))}
+                </ul>
+            )}
+        </>
     );
 }
 
