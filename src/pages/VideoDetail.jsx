@@ -1,15 +1,12 @@
-import { useQuery } from '@tanstack/react-query';
-import React, { useState } from 'react';
+import React from 'react';
 import { useLocation } from 'react-router-dom';
 import ChannelInfo from '../components/ChannelInfo';
-import { useYoutubeApi } from '../context/YoutubeApiContext';
 import RelatedVideos from '../components/RelatedVideos';
 
 export default function VideoDetail() {
   const {
     state: { video },
   } = useLocation();
-  const { youtube } = useYoutubeApi();
 
   const { title, channelId, channelTitle, description } = video.snippet;
   return (
@@ -17,6 +14,7 @@ export default function VideoDetail() {
       <article className='basis-4/6'>
         <iframe
           id='player'
+          title={title}
           type='text/html'
           width='100%'
           height='640'
