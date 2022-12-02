@@ -9,6 +9,17 @@ export default class Youtube {
         return keyword ? this.#searchByKeyword(keyword) : this.#mostPopular();
     }
 
+    async channel() {
+        return this.#channelInfo();
+    }
+
+    /**
+     * 연관된 비디오
+     */
+    async related(videoId) {
+        return this.#relatedByVideo();
+    }
+
     async #searchByKeyword(keyword) {
         return this.apiClient
         .search({
@@ -33,5 +44,17 @@ export default class Youtube {
             }}
         )
         .then((res) => res.data.items)
+    }
+
+    async #channelInfo() {
+        return this.apiClient
+        .channel()
+        .then(res => res.data.items[0].snippet)
+    }
+
+    async #relatedByVideo(videoId) {
+        return this.apiClient
+        .related()
+        .then(res=> res.data.items)
     }
 }

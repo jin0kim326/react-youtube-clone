@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import VideoCard from '../components/VideoCard/VideoCard';
 import { useYoutubeApi } from '../context/YoutubeApiContext';
@@ -7,6 +7,7 @@ import { useYoutubeApi } from '../context/YoutubeApiContext';
 export default function Videos() {
     const {keyword} = useParams();
     const { youtube } = useYoutubeApi();
+    const navigate = useNavigate();
 
     const { 
         isLoading,
@@ -15,6 +16,10 @@ export default function Videos() {
     } = useQuery(['videos',keyword], () => 
         youtube.search(keyword)
     );
+
+    const moveVideoDetail = (video) => {
+        navigate(`/videos/watch/${video.id}`, {state: video});
+    }
     
     return (
         <>
@@ -24,7 +29,7 @@ export default function Videos() {
             {videos && (
                 <ul className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-2 gap-y-4'>
                     {videos.map((video) => (
-                    <VideoCard key ={video.id} video={video} />
+                    <VideoCard key ={video.id} video={video} handleClick={()=>moveVideoDetail(video)}/>
                     ))}
                 </ul>
             )}
