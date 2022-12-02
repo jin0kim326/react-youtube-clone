@@ -1,44 +1,37 @@
 import { useQuery } from '@tanstack/react-query';
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import ChannelInfo from '../components/ChannelInfo';
 import { useYoutubeApi } from '../context/YoutubeApiContext';
+import RelatedVideos from '../components/RelatedVideos';
 
 export default function VideoDetail() {
-    const {state : video} = useLocation();
-    const { youtube } = useYoutubeApi();
-    const {title} = video.snippet;
-    
+  const {
+    state: { video },
+  } = useLocation();
+  const { youtube } = useYoutubeApi();
 
-    const {
-        isLoading,
-        error,
-        data: channel
-    } = useQuery(['channel'], () =>  
-        youtube.channel()
-    )
-
-    const {
-        isLoading2,
-        error2,
-        data: related
-    } = useQuery(['related'], () =>
-        youtube.related()
-    )
-
-    console.log(related);
-
-    return (
-        <>
+  const { title, channelId, channelTitle, description } = video.snippet;
+  return (
+    <section>
+      <article>
+        <iframe
+          id='player'
+          type='text/html'
+          width='100%'
+          height='640'
+          src={`http://www.youtube.com/embed/${video.id}`}
+          frameBorder='0'
+        ></iframe>
         <div>
-            {isLoading && <p>Loading...</p>}
-            {error && <p> 😿 {error}</p>}
-            {title}
-            {/* {channel && <img src={url}></img>} */}
+          <h2>{title}</h2>
+          <ChannelInfo id={channelId} name={channelTitle} />
+          <pre>{description}</pre>
         </div>
-        <article>
-            {related && related.map(video => <h1>{video.snippet.title}</h1>)}
-        </article>
-        </>
-    );
+      </article>
+      <section>
+        <RelatedVideos id={video.id} />
+      </section>
+    </section>
+  );
 }
-
